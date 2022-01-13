@@ -1,45 +1,40 @@
 import axios from "../services/api";
 import { useState } from "react";
-import {tasks,setTasks} from "../types/task"
-const TaskList: React.FC<tasks & setTasks> = (props) => {
-  const { tasks, setTasks } = props;
-  const deleteTask = (id: number) => {
-    axios.delete(`/tasks/delete/${id}`).then(() => {
-      const taskList = [...tasks];
-      const index = taskList.findIndex((task) => task.id === id);
-      taskList.splice(index, 1);
-      setTasks(taskList);
-    });
+import { setTasks, deleteTask, addTask, updateTask} from "actions/task"
+import {useDispatch} from "react-redux"
+import useSelector from "hooks";
+const TaskList: React.FC = () => {
+  const dispatch = useDispatch();
+  const tasks = useSelector((state)=> state.task.taskList);
+  const deleteTaskApi = (id: number) => {
+    axios.delete(`/tasks/delete/${id}`)
+    dispatch(deleteTask(id))
   };
   const [input, setInput] = useState("");
   const [id, setId] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
-  const addTask = () => {
+  const addTaskApi = () => {
     if (input) {
       axios.post(`/tasks/add`, { title: input }).then((res) => {
         const { data } = res.data;
-        setTasks([...tasks, data]);
         setInput("");
+        dispatch(addTask(data))
       });
     }
   };
-  const editTask = (title: string,id:number) => {
+  const editTaskInput = (title: string,id:number) => {
     setInput(title);
     if(id!==0){
       setId(id);
     }
     setIsEdit(true);
   };
-  const saveTask = (id:number) => {
+  const editTask = (id:number) => {
     axios.patch(`/tasks/edit/${id}`,{title:input}).then((res) => {
-      console.log(res.data);
-      const { data } = res.data;
-      const taskList = [...tasks];
-      const index = taskList.findIndex((task) => task.id === id);
-      taskList[index] = data
-      setTasks(taskList);
+      const { data } = res.data
       setIsEdit(false)
       setInput("");
+      dispatch(updateTask(data))
     });
   };
   return (
@@ -60,12 +55,12 @@ const TaskList: React.FC<tasks & setTasks> = (props) => {
         }}
       />
       {!isEdit ? (
-        <button className="AddButton" onClick={addTask}>
+        <button className="AddButton" onClick={addTaskApi}>
           +
         </button>
       ) : (
         <>
-          <button className="SaveButton" onClick={()=>saveTask(id)}>
+          <button className="SaveButton" onClick={()=>editTask(id)}>
             <i
               style={{ cursor: "pointer", fontSize: "0.8rem" }}
               className="material-icons"
@@ -111,7 +106,7 @@ const TaskList: React.FC<tasks & setTasks> = (props) => {
                       cursor: "pointer",
                     }}
                     className="material-icons"
-                    onClick={() => deleteTask(id)}
+                    onClick={() => deleteTaskApi(id)}
                   >
                     delete
                   </i>
@@ -119,7 +114,7 @@ const TaskList: React.FC<tasks & setTasks> = (props) => {
                     <i
                       style={{ cursor: "pointer", fontSize: "1.2rem" }}
                       className="material-icons"
-                      onClick={() => editTask(title,id)}
+                      onClick={() => editTaskInput(title,id)}
                     >
                       edit
                     </i>

@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
-const rootReducer = combineReducers({});
+import task from "./task";
+const rootReducer = combineReducers({ task });
 export type RootState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;
