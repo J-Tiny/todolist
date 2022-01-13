@@ -7,7 +7,20 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.TaskContainer {
+  display: flex;
+  width: fit-content;
+}
+.Container {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+.TaskList {
+  display: flex;
+  justify-content: center;
+}
 .Task-input {
   margin-right: 5px;
 }
