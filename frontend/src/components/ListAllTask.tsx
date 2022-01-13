@@ -1,6 +1,6 @@
 import axios from "../services/api";
 import { useState } from "react";
-import { setTasks, deleteTask, addTask, updateTask} from "actions/task"
+import { deleteTask, addTask, updateTask} from "actions/task"
 import {useDispatch} from "react-redux"
 import useSelector from "hooks";
 const TaskList: React.FC = () => {
