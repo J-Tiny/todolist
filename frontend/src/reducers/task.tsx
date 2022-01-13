@@ -27,12 +27,9 @@ export default (state = initialState, { type, payload }): TaskState => {
         taskList: [...state.taskList, payload.value as task],
       };
     case UPDATE_TASK:
-      const taskList = [...state.taskList];
-      const index = taskList.findIndex((task) => task.id === payload.value.id as number);
-      taskList[index] = payload.value as task
         return {
             ...state,
-            taskList: taskList
+            taskList: state.taskList.map((task)=> task.id === payload.value.id as number? {...task,title: payload.value.title}:task)
         }
     default:
       return state;
