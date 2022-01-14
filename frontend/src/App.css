@@ -9,7 +9,11 @@
 }
 .TaskContainer {
   display: flex;
-  width: fit-content;
+  width: 12rem;
+  justify-content: end;
+}
+.IconContainer {
+  display: flex;
 }
 .Container {
   display: flex;

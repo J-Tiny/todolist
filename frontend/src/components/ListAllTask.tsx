@@ -92,13 +92,14 @@ const TaskList: React.FC = () => {
             {tasks.map(({ id, title }: any) => {
               return (
                 <div className="TaskContainer" key={id}>
-                  <li
+                  <div
                     style={{
                       marginRight: "4rem",
                     }}
                   >
                     {title}
-                  </li>
+                  </div>
+                  <div className="IconContainer" style={{textAlign:"center"}}>
                   <i
                     style={{
                       color: "red",
@@ -119,6 +120,7 @@ const TaskList: React.FC = () => {
                       edit
                     </i>
                   </label>
+                  </div>
                 </div>
               );
             })}
